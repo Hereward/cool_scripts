@@ -20,6 +20,7 @@ $mysqli = mysqli_connect($db['expressionengine']['hostname'], $db['expressioneng
 
 if (mysqli_connect_errno($mysqli)) {
     dev_log::write( "Failed to connect to MySQL: " . mysqli_connect_error());
+    die();
 }
 
 $channel = get_channel($mysqli);
