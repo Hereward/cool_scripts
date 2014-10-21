@@ -8,7 +8,7 @@ define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 include $db_conf_path;
 
-chdir($root_path);
+//chdir($root_path);
 
 require_once("/home/planetonline/websites/truthnews/includes/dev_log.php");
 
