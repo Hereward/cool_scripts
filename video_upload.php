@@ -1,5 +1,6 @@
 <?php
 
+$log_path = dirname(__FILE__).'/tna_log.txt';
 $root_path = '/home/planetonline/websites/truthnews/radio/video_conversion';
 $src_path = '/home/planetonline/websites/truthnews/radio/export';
 $media_input_path = '/home/planetonline/websites/truthnews/radio/export';
@@ -12,7 +13,7 @@ include $db_conf_path;
 
 require_once("/home/planetonline/websites/truthnews/includes/dev_log.php");
 
-dev_log::init("$root_path/tna_log.txt",1);
+dev_log::init($log_path,1);
 dev_log::write('BEGIN');
 $conf = array();
 
