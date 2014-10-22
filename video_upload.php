@@ -108,8 +108,8 @@ if ($allow) {
 
 
 
-$mysqli->close();
-die();
+//$mysqli->close();
+//die();
 
 /*
  * $res = $mysqli->query("SELECT id FROM test ORDER BY id ASC");
@@ -124,10 +124,6 @@ while ($row = $res->fetch_assoc()) {
 $mysqli->close();
  
  */
-
-
-
-
 
 dev_log::write('END');
 
