@@ -51,7 +51,7 @@ if ($results->num_rows < 1) {
 }
 
 $results->data_seek(0);
-$row = $results->fetch_assoc();
+
 while ($row = $results->fetch_assoc()) {
     $yi_str = $row[$youtube_image_name];
 
