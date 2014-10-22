@@ -69,18 +69,23 @@ $description = $row[$description_name];
 $media_inputs = array();
 $media_outputs = array();
 
+
 for ($index = 0; $index < $media_segments; $index++) {
     $num_tag = ($index)?'_'.$index:'';
     $mp3_name = "TNRA_$media_date$num_tag.mp3";
     $mp4_name = "TNRA_$media_date$num_tag.mp4";
     $media_inputs[] = "$media_input_path/$mp3_name";
     $media_outputs[] = "$media_output_path/$mp4_name";
-    dev_log::write("media_input=[$media_input_path/$mp3_name] media_output=$media_output_path/$mp4_name");
+    dev_log::write(
+            "media_input=[$media_input_path/$mp3_name] exists=".file_exists($media_input_path/$mp3_name) . 
+            "media_output=$media_output_path/$mp4_name exists=".file_exists($media_output_path/$mp4_name)
+            );
 }
 
-if (file_exists($media_outputs[0])) {
+if (file_exists($media_outputs[0]) || !file_exists($media_inputs[0])) {
     $allow = false;
 }
+
 
 dev_log::write("allow=[$allow] img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
 
