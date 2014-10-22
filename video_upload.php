@@ -89,6 +89,25 @@ if (file_exists($media_outputs[0]) || !file_exists($media_inputs[0])) {
 
 dev_log::write("allow=[$allow] img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
 
+if ($allow) {
+    $i = 0;
+    foreach ($media_inputs as $input) { 
+        $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
+        convert_video($img_path, $sample, $media_outputs[$i]); 
+        
+        if (file_exists($media_outputs[$i])) {
+            chdir("$root_path/py_scripts");
+            dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
+            youtube_upload($v_output, $v_title, $v_desc, $v_keywords, $v_cat, $v_pstatus);
+        } else {
+            dev_log::write("OUTPUT FILE ({$media_outputs[$i]} NOT FOUND > CANCEL UPLOAD.");
+        }
+        $i++;
+    }
+}
+
+
+
 $mysqli->close();
 die();
 
@@ -107,7 +126,7 @@ $mysqli->close();
  */
 
 
-chdir("$root_path/py_scripts");
+
 
 
 dev_log::write('END');
@@ -189,8 +208,8 @@ function get_up($mysqli,$id) {
 }
 
 function convert_video($v_image, $v_source, $v_output) {
-    $cwd = getcwd();
-    dev_log::write("CWD = $cwd");
+    //$cwd = getcwd();
+    //dev_log::write("CWD = $cwd");
 
 //ffmpeg -loop 1 -i tna_screen_grab_640p.jpg -i TNRA_20141004_2_subscriber_short.mp3 -shortest -vcodec libx264 -crf 23 -preset medium -acodec copy TNRA_20141004_2_subscriber_short_9.mp4
 
@@ -200,15 +219,14 @@ function convert_video($v_image, $v_source, $v_output) {
     dev_log::write("start conversion");
 
     $ffmpeg_com = "ffmpeg -loop 1 -i $v_image -i $v_source -shortest -vcodec libx264 -crf 23 -preset medium -acodec copy $v_output";
-    exec($ffmpeg_com, $output, $return_var);
-
     dev_log::write("ffmpeg_com = [$ffmpeg_com]");
+    exec($ffmpeg_com, $output, $return_var);
 
     dev_log::write("ffmpeg_com: return_var=$return_var");
     dev_log::write("end conversion");
 }
 
-function youtube_upload() {
+function youtube_upload($v_output, $v_title, $v_desc, $v_keywords, $v_cat, $v_pstatus) {
     $cwd = getcwd();
     dev_log::write("CWD = $cwd");
 
@@ -217,11 +235,11 @@ function youtube_upload() {
 
 //$v_title = "Cow's milk is good for you!";
 //$v_desc = "This is just a test. It's fun!";
-    $v_keywords = "test";
-    $v_cat = "22";
-    $v_pstatus = "private";
+    //$v_keywords = "test";
+    //$v_cat = "22";
+    //$v_pstatus = "private";
 
-
+    dev_log::write("start upload");
     $args['file'] = escapeshellarg($v_output);
     $args['title'] = escapeshellarg($v_title);
     $args['description'] = escapeshellarg($v_desc);
@@ -243,5 +261,5 @@ function youtube_upload() {
 
     exec($py_comm, $output, $return_var);
     dev_log::write("py_comm: return_var=$return_var");
-    dev_log::write("upload done");
+    dev_log::write("end upload");
 }
