@@ -78,7 +78,7 @@ for ($index = 0; $index < $media_segments; $index++) {
     $media_outputs[] = "$media_output_path/$mp4_name";
     dev_log::write(
             "media_input=[$media_input_path/$mp3_name] exists=[".file_exists($media_input_path/$mp3_name)."[]" . 
-            "media_output=$media_output_path/$mp4_name exists=[".file_exists($media_output_path/$mp4_name."[]")
+            "media_output=$media_output_path/$mp4_name exists=[".file_exists($media_output_path/$mp4_name)."[]")
             );
 }
 
