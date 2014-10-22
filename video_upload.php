@@ -93,12 +93,13 @@ if ($allow) {
     $i = 0;
     foreach ($media_inputs as $input) { 
         $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
+        dev_log::write("SAMPLE PATH=[$sample]");
         convert_video($img_path, $sample, $media_outputs[$i]); 
         
         if (file_exists($media_outputs[$i])) {
             chdir("$root_path/py_scripts");
             dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
-            youtube_upload($v_output, $v_title, $v_desc, $v_keywords, $v_cat, $v_pstatus);
+            youtube_upload($media_outputs[$i], $title, $description, 'test', '22', 'private');
         } else {
             dev_log::write("OUTPUT FILE ({$media_outputs[$i]} NOT FOUND > CANCEL UPLOAD.");
         }
