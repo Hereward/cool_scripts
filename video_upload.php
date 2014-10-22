@@ -95,6 +95,7 @@ if ($allow) {
         $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
         dev_log::write("SAMPLE PATH=[$sample]");
         //convert_video($img_path, $sample, $media_outputs[$i]); 
+        dev_log::write("YOUTUBE: {$media_outputs[$i]}, $title, $description, 'test', '22', 'private'");
         
         if (file_exists($media_outputs[$i])) {
             chdir("$root_path/py_scripts");
