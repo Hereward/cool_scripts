@@ -94,7 +94,8 @@ while ($row = $res->fetch_assoc()) {
         $i = 0;
         foreach ($media_inputs as $input) {
             $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
-            //dev_log::write("SAMPLE PATH=[$sample]");
+            dev_log::write("SAMPLE PATH=[$sample]");
+            $input = $sample;
             convert_video($img_path, $input, $media_outputs[$i]);
             //dev_log::write("YOUTUBE: {$media_outputs[$i]}, $title, $description, 'test', '22', 'private'");
 
