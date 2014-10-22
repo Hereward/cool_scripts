@@ -8,6 +8,7 @@ $media_output_path = '/home/planetonline/websites/truthnews/radio/video_conversi
 define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 include $db_conf_path;
+$allow = true;
 
 //chdir($root_path);
 
@@ -65,16 +66,23 @@ $media_segments = $row[$media_segments_name];
 $media_date = $row[$media_date_name];
 $title = $row[$title_name];
 $description = $row[$description_name];
-$media_paths = array();
+$media_inputs = array();
+$media_outputs = array();
 
 for ($index = 0; $index < $media_segments; $index++) {
     $num_tag = ($index)?'_'.$index:'';
-    $name = "TNRA_$media_date$num_tag.mp3";
-    $media_paths[] = "$media_input_path/$name";
-    dev_log::write("media_path=[$media_input_path/$name]");
+    $mp3_name = "TNRA_$media_date$num_tag.mp3";
+    $mp4_name = "TNRA_$media_date$num_tag.mp4";
+    $media_inputs[] = "$media_input_path/$mp3_name";
+    $media_outputs[] = "$media_output_path/$mp4_name";
+    dev_log::write("media_input=[$media_input_path/$mp3_name] media_output=$media_output_path/$mp4_name");
 }
 
-dev_log::write("img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
+if (file_exists($media_outputs[0])) {
+    $allow = false;
+}
+
+dev_log::write("allow=[$allow] img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
 
 $mysqli->close();
 die();
