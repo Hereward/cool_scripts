@@ -230,6 +230,9 @@ function convert_video($v_image, $v_source, $v_output) {
     exec($ffmpeg_com, $output, $return_var);
 
     dev_log::write("ffmpeg_com: return_var=$return_var");
+    if ($return_var) {
+        dev_log::write(print_r($output,true));
+    }
     dev_log::write("end conversion");
     return $return_var;
 }
@@ -269,6 +272,9 @@ function youtube_upload($v_output, $v_title, $v_desc, $v_keywords, $v_cat, $v_ps
 
     exec($py_comm, $output, $return_var);
     dev_log::write("py_comm: return_var=$return_var");
+    if ($return_var) {
+        dev_log::write(print_r($output,true));
+    }
     dev_log::write("end upload");
     return $return_var;
 }
