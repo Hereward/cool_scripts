@@ -96,13 +96,21 @@ while ($row = $results->fetch_assoc()) {
             //$sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
             //dev_log::write("SAMPLE PATH=[$sample]");
             //$input = $sample;
-            convert_video($img_path, $input, $media_outputs[$i]);
+            $ffmpeg_error = convert_video($img_path, $input, $media_outputs[$i]);
             //dev_log::write("YOUTUBE: {$media_outputs[$i]}, $title, $description, 'test', '22', 'private'");
 
             if (file_exists($media_outputs[$i])) {
-                chdir("$root_path/py_scripts");
-                dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
-                youtube_upload($media_outputs[$i], $title, $description, 'test', '22', 'private');
+                if ($ffmpeg_error) {
+                    dev_log::write("FFMPEG REPORTS AN ERROR!");
+                } else {
+                     chdir("$root_path/py_scripts");
+                     dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
+                     $python_error = youtube_upload($media_outputs[$i], $title, $description, 'test', '22', 'private');
+                     if ($python_error) {
+                         dev_log::write("PYTHON REPORTS AN ERROR!");
+                     }
+                }
+               
                 //break 2;
             } else {
                 dev_log::write("OUTPUT FILE ({$media_outputs[$i]} NOT FOUND > CANCEL UPLOAD.");
@@ -223,6 +231,7 @@ function convert_video($v_image, $v_source, $v_output) {
 
     dev_log::write("ffmpeg_com: return_var=$return_var");
     dev_log::write("end conversion");
+    return $return_var;
 }
 
 function youtube_upload($v_output, $v_title, $v_desc, $v_keywords, $v_cat, $v_pstatus) {
@@ -261,4 +270,5 @@ function youtube_upload($v_output, $v_title, $v_desc, $v_keywords, $v_cat, $v_ps
     exec($py_comm, $output, $return_var);
     dev_log::write("py_comm: return_var=$return_var");
     dev_log::write("end upload");
+    return $return_var;
 }
