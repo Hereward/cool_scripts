@@ -7,6 +7,7 @@ $media_input_path = '/home/planetonline/websites/truthnews/radio/export';
 $media_output_path = '/home/planetonline/websites/truthnews/radio/video_conversion/export';
 define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
+$generic_image_path = '/home/planetonline/websites/truthnews/storage/images/framework/tna_vi_generic.png';
 include $db_conf_path;
 $allow = true;
 
@@ -53,20 +54,34 @@ if ($results->num_rows < 1) {
 $results->data_seek(0);
 
 while ($row = $results->fetch_assoc()) {
+    $img_path = '';
+    $ulid = '';
     $yi_str = $row[$youtube_image_name];
 
 //dev_log::write("yi_str =[$yi_str]");
 
-    $ulid = extract_ulid($yi_str);
-    $img_root_path = get_up($mysqli, $ulid);
-    $img_path = replace_ulid($yi_str, $img_root_path);
+    
+    if ($yi_str) {
+        $ulid = extract_ulid($yi_str);
+        $img_root_path = get_up($mysqli, $ulid);
+        $img_path = replace_ulid($yi_str, $img_root_path);
+    } else {
+        $img_path = $generic_image_path;
+    }
 
     dev_log::write("channel=[$channel] yi_name=[$youtube_image_name] py_name=[$publish_to_youtube_name] ulid=[$ulid] img_root_path=[$img_root_path] img_path=[$img_path]");
 
     $media_segments = $row[$media_segments_name];
     $media_date = $row[$media_date_name];
     $title = $row[$title_name];
-    $description = $row[$description_name];
+    $description = $row[$description_name]. " \n\n";
+    $url_title = $row['url_title'];
+    $weblink = "http://www.truthnews.com.au/radio/story/$url_title";
+    $subscribe_link = "http://www.truthnews.com.au/subscribe";
+    
+    $description .= "Visit the website: $weblink \n";
+    $description .= "Become a subscriber: $subscribe_link \n";
+    
     $media_inputs = array();
     $media_outputs = array();
 
@@ -95,9 +110,9 @@ while ($row = $results->fetch_assoc()) {
     if ($allow) {
         $i = 0;
         foreach ($media_inputs as $input) {
-            //$sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
-            //dev_log::write("SAMPLE PATH=[$sample]");
-            //$input = $sample;
+            $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
+            dev_log::write("SAMPLE PATH=[$sample]");
+            $input = $sample;
             $ffmpeg_error = convert_video($img_path, $input, $media_outputs[$i]);
             //dev_log::write("YOUTUBE: {$media_outputs[$i]}, $title, $description, 'test', '22', 'private'");
 
