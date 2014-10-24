@@ -8,6 +8,7 @@ $media_output_path = '/home/planetonline/websites/truthnews/radio/video_conversi
 define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 $generic_image_path = '/home/planetonline/websites/truthnews/storage/images/framework/tna_vi_generic.png';
+$privacy_status = 'public'; // 'private';
 include $db_conf_path;
 $allow = true;
 
@@ -114,7 +115,7 @@ while ($row = $results->fetch_assoc()) {
             //dev_log::write("SAMPLE PATH=[$sample]");
             //$input = $sample;
             $ffmpeg_error = convert_video($img_path, $input, $media_outputs[$i]);
-            //dev_log::write("YOUTUBE: {$media_outputs[$i]}, $title, $description, 'test', '22', 'private'");
+            
 
             if (file_exists($media_outputs[$i])) {
                 if ($ffmpeg_error) {
@@ -122,7 +123,7 @@ while ($row = $results->fetch_assoc()) {
                 } else {
                      chdir("$root_path/py_scripts");
                      dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
-                     $python_error = youtube_upload($media_outputs[$i], $title, $description, 'test', '22', 'private');
+                     $python_error = youtube_upload($media_outputs[$i], $title, $description, 'test', '22', $privacy_status);
                      if ($python_error) {
                          dev_log::write("PYTHON REPORTS AN ERROR!");
                      }
