@@ -85,7 +85,9 @@ while ($row = $results->fetch_assoc()) {
 
     if (file_exists($media_outputs[0]) || !file_exists($media_inputs[0])) {
         $allow = false;
-    }
+    } else {
+        $allow = true;
+    } 
 
 
     dev_log::write("allow=[$allow] img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
