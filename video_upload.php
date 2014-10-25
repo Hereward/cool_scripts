@@ -8,7 +8,7 @@ $media_output_path = '/home/planetonline/websites/truthnews/radio/video_conversi
 define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 $generic_image_path = '/home/planetonline/websites/truthnews/storage/images/framework/tna_vi_generic.png';
-$privacy_status = 'public'; // 'private';
+$privacy_status = 'private'; //'public' 'private';
 include $db_conf_path;
 $allow = true;
 
