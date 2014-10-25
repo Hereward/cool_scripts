@@ -89,11 +89,12 @@ while ($row = $results->fetch_assoc()) {
 
     for ($index = 0; $index < $media_segments; $index++) {
         $num_tag = ($index) ? '_' . $index+1 : '';
-        $mp3_name = "TNRA_$media_date$num_tag.mp3";
-        $mp4_name = "TNRA_$media_date$num_tag.mp4";
+        $mp3_name = "TNRA_$media_date".$num_tag.".mp3";
+        $mp4_name = "TNRA_$media_date".$num_tag.".mp4";
         $media_inputs[] = "$media_input_path/$mp3_name";
         $media_outputs[] = "$media_output_path/$mp4_name";
         dev_log::write(
+                "num_tag = [$num_tag] ".
                 "media_input=[$media_input_path/$mp3_name] exists=[" . file_exists("$media_input_path/$mp3_name") . "] " .
                 "media_output=$media_output_path/$mp4_name exists=[" . file_exists("$media_output_path/$mp4_name") . "]"
         );
@@ -111,9 +112,9 @@ while ($row = $results->fetch_assoc()) {
     if ($allow) {
         $i = 0;
         foreach ($media_inputs as $input) {
-            //$sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
-            //dev_log::write("SAMPLE PATH=[$sample]");
-            //$input = $sample;
+            $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
+            dev_log::write("SAMPLE PATH=[$sample]");
+            $input = $sample;
             $ffmpeg_error = convert_video($img_path, $input, $media_outputs[$i]);
             
 
@@ -123,7 +124,7 @@ while ($row = $results->fetch_assoc()) {
                 } else {
                      chdir("$root_path/py_scripts");
                      dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
-                     $python_error = youtube_upload($media_outputs[$i], $title, $description, 'test', '22', $privacy_status);
+                     $python_error = 0; //youtube_upload($media_outputs[$i], $title, $description, 'test', '22', $privacy_status);
                      if ($python_error) {
                          dev_log::write("PYTHON REPORTS AN ERROR!");
                      }
@@ -243,7 +244,7 @@ function convert_video($v_image, $v_source, $v_output) {
     //$v_output = "$root_path/TNRA_20141004_2_subscriber_short_13.mp4";
     dev_log::write("start conversion");
 
-    $ffmpeg_com = "ffmpeg -loop 1 -i $v_image -i $v_source -shortest -vcodec libx264 -crf 23 -preset medium -acodec copy $v_output";
+    $ffmpeg_com = "ffmpeg -force_key_frames 00:00:00.000 -loop 1 -i $v_image -i $v_source -shortest -vcodec libx264 -crf 23 -preset medium -acodec copy $v_output";
     dev_log::write("ffmpeg_com = [$ffmpeg_com]");
     exec($ffmpeg_com, $output, $return_var);
 
