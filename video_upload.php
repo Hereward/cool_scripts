@@ -88,7 +88,7 @@ while ($row = $results->fetch_assoc()) {
 
 
     for ($index = 0; $index < $media_segments; $index++) {
-        $num_tag = ($index) ? '_' . $index : '';
+        $num_tag = ($index) ? '_' . $index+1 : '';
         $mp3_name = "TNRA_$media_date$num_tag.mp3";
         $mp4_name = "TNRA_$media_date$num_tag.mp4";
         $media_inputs[] = "$media_input_path/$mp3_name";
