@@ -125,7 +125,7 @@ while ($row = $results->fetch_assoc()) {
                 } else {
                      chdir("$root_path/py_scripts");
                      dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
-                     $python_error = 0; //youtube_upload($media_outputs[$i], $title, $description, 'test', '22', $privacy_status);
+                     $python_error = youtube_upload($media_outputs[$i], $title, $description, 'test', '22', $privacy_status);
                      if ($python_error) {
                          dev_log::write("PYTHON REPORTS AN ERROR!");
                      }
