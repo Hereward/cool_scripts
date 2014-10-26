@@ -254,7 +254,7 @@ function convert_video($v_image, $v_source, $v_output) {
     //$v_output = "$root_path/TNRA_20141004_2_subscriber_short_13.mp4";
     dev_log::write("start conversion");
 
-    $ffmpeg_com = "ffmpeg -force_key_frames 00:00:00.000 -loop 1 -i $v_image -i $v_source -shortest -vcodec libx264 -crf 23 -preset medium -acodec copy $v_output";
+    $ffmpeg_com = "ffmpeg -loop 1 -i $v_image -i $v_source -force_key_frames 00:00:00.000 -shortest -vcodec libx264 -crf 23 -preset medium -acodec copy $v_output";
     dev_log::write("ffmpeg_com = [$ffmpeg_com]");
     exec($ffmpeg_com, $output, $return_var);
 
