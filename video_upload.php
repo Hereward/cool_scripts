@@ -126,8 +126,13 @@ while ($row = $results->fetch_assoc()) {
                      chdir("$root_path/py_scripts");
                      dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
                      if ($i == 1) {
-                         $title = substr($title, 0, 90)." - 2";
+                         $title = substr($title, 0, 85)." - Part 2";
                          $description = "HOUR 2: ".$description;
+                     } elseif ($i == 0) {
+                         if (count($media_inputs) > 1) {
+                             $title = substr($title, 0, 85)." - Part 1";
+                             $description = "HOUR 1: ".$description;
+                         }
                      }
                      $python_error = youtube_upload($media_outputs[$i], $title, $description, 'test', '22', $privacy_status);
                      if ($python_error) {
