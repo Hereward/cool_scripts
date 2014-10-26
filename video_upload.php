@@ -8,7 +8,7 @@ $media_output_path = '/home/planetonline/websites/truthnews/radio/video_conversi
 define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 $generic_image_path = '/home/planetonline/websites/truthnews/storage/images/framework/tna_vi_generic.png';
-$privacy_status = 'private'; //'public' 'private';
+$privacy_status = 'public'; //'public' 'private';
 include $db_conf_path;
 $allow = true;
 
@@ -113,9 +113,9 @@ while ($row = $results->fetch_assoc()) {
     if ($allow) {
         $i = 0;
         foreach ($media_inputs as $input) {
-            $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
-            dev_log::write("SAMPLE PATH=[$sample]");
-            $input = $sample;
+            //$sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
+            //dev_log::write("SAMPLE PATH=[$sample]");
+            //$input = $sample;
             $ffmpeg_error = convert_video($img_path, $input, $media_outputs[$i]);
             
 
