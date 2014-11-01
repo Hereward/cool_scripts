@@ -195,6 +195,8 @@ if ($total_errors == 0) {
     deactivate($mysqli,$entry_id);
 }
 
+dev_log::write("TOTAL ERRORS = [$total_errors]");
+
 
 //$mysqli->close();
 //die();
