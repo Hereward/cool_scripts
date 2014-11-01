@@ -135,6 +135,8 @@ foreach ($media_inputs as $input) {
     //$input = $sample;
     $locked = upload_status($mysqli, $media_outputs[$i], 1);
     $input_exists = file_exists($input);
+    $v_desc = '';
+    $v_title = '';
     
     
     $errors = 0;
@@ -155,15 +157,15 @@ foreach ($media_inputs as $input) {
                 chdir("$root_path/py_scripts");
                 dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
                 if ($i == 1) {
-                    $title = substr($title, 0, 85) . " - Part 2";
-                    $description = "HOUR 2: " . $description;
+                    $v_title = substr($title, 0, 85) . " - Part 2";
+                    $v_desc = "HOUR 2: " . $description;
                 } elseif ($i == 0) {
                     if (count($media_inputs) > 1) {
-                        $title = substr($title, 0, 85) . " - Part 1";
-                        $description = "HOUR 1: " . $description;
+                        $v_title = substr($title, 0, 85) . " - Part 1";
+                        $v_desc = "HOUR 1: " . $description;
                     }
                 }
-                $python_error = youtube_upload($media_outputs[$i], $title, $description, $keywords, $youtube_category, $privacy_status);
+                $python_error = youtube_upload($media_outputs[$i], $v_title, $v_desc, $keywords, $youtube_category, $privacy_status);
                 if ($python_error) {
                     $errors++;
                     dev_log::write("PYTHON REPORTS AN ERROR!");
