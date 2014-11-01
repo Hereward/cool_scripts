@@ -128,7 +128,7 @@ $total_errors = 0;
 foreach ($media_inputs as $input) {
     $sample = "$root_path/TNRA_20141004_2_subscriber_short.mp3";
     //dev_log::write("SAMPLE PATH=[$sample]");
-    $input = $sample;
+    //$input = $sample;
     $locked = upload_status($mysqli, $media_outputs[$i], 1);
     $input_exists = file_exists($input);
     
