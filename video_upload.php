@@ -10,7 +10,7 @@ $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/confi
 $generic_image_path = '/home/planetonline/websites/truthnews/storage/images/framework/tna_vi_generic.png';
 $privacy_status = 'private'; //'public' 'private';
 include $db_conf_path;
-$allow = true;
+
 
 //chdir($root_path);
 
@@ -120,7 +120,7 @@ for ($index = 0; $index < $media_segments; $index++) {
  */
 
 
-dev_log::write("allow=[$allow] img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
+dev_log::write("img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
 
 
 $i = 0;
@@ -192,7 +192,7 @@ foreach ($media_inputs as $input) {
 }
 
 if ($total_errors == 0) {
-    deactivate($mysqli,$entry_id);
+    deactivate($mysqli, $publish_to_youtube_name, $entry_id);
 }
 
 dev_log::write("TOTAL ERRORS = [$total_errors]");
@@ -389,7 +389,7 @@ function post_upload($mysqli, $filename) {
     do_error($mysqli, $sql, $result);
 }
 
-function deactivate($mysqli, $entry_id = '') {
+function deactivate($mysqli, $publish_to_youtube_name, $entry_id = '') {
     if ($entry_id) {
         $sql = "UPDATE exp_channel_data SET $publish_to_youtube_name = 'no' WHERE entry_id = $entry_id";
         dev_log::write($sql);
