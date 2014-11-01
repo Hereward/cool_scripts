@@ -80,7 +80,7 @@ dev_log::write("channel=[$channel] yi_name=[$youtube_image_name] py_name=[$publi
 $media_segments = $row[$media_segments_name];
 $media_date = $row[$media_date_name];
 $title = $row[$title_name];
-dev_log::write("TITLE = [$title]");
+dev_log::write("TITLE = [$title] media_date = [$media_date]");
 $description = $row[$description_name] . " \n\n";
 $url_title = $row['url_title'];
 $entry_id = $row['entry_id'];
