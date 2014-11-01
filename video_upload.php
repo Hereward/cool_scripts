@@ -9,6 +9,7 @@ define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 $generic_image_path = '/home/planetonline/websites/truthnews/storage/images/framework/tna_vi_generic.png';
 $privacy_status = 'private'; //'public' 'private';
+$youtube_category = '22';
 include $db_conf_path;
 
 
@@ -32,6 +33,7 @@ $youtube_image_name = 'field_id_' . get_fid($mysqli, 'youtube_image');
 $publish_to_youtube_name = 'field_id_' . get_fid($mysqli, 'publish_to_youtube');
 
 $media_date_name = 'field_id_' . get_fid($mysqli, 'media_date');
+$keywords_name = 'field_id_' . get_fid($mysqli, 'keywords');
 $title_name = 'title';
 $description_name = 'field_id_' . get_fid($mysqli, 'description');
 $media_segments_name = 'field_id_' . get_fid($mysqli, 'media_segments');
@@ -80,6 +82,7 @@ dev_log::write("channel=[$channel] yi_name=[$youtube_image_name] py_name=[$publi
 
 $media_segments = $row[$media_segments_name];
 $media_date = $row[$media_date_name];
+$keywords = $row[$keywords_name];
 $title = $row[$title_name];
 dev_log::write("TITLE = [$title] media_date = [$media_date]");
 $description = $row[$description_name] . " \n\n";
@@ -160,7 +163,7 @@ foreach ($media_inputs as $input) {
                         $description = "HOUR 1: " . $description;
                     }
                 }
-                $python_error = youtube_upload($media_outputs[$i], $title, $description, 'test', '22', $privacy_status);
+                $python_error = youtube_upload($media_outputs[$i], $title, $description, $keywords, $youtube_category, $privacy_status);
                 if ($python_error) {
                     $errors++;
                     dev_log::write("PYTHON REPORTS AN ERROR!");
