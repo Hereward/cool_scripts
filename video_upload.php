@@ -54,6 +54,7 @@ do_error($mysqli, $sql, $results);
 
 if ($results->num_rows < 1) {
     dev_log::write("ZERO results returned from main query, I guess there's nothing to do here!");
+    dev_log::write('END');
     die();
 }
 
@@ -120,7 +121,7 @@ for ($index = 0; $index < $media_segments; $index++) {
  */
 
 
-dev_log::write("img_path=[$img_path] media_segments=[$media_segments] media_date=[$media_date] title=[$title] description=[$description]");
+dev_log::write("img_path=[$img_path] media_segments=[$media_segments] description=[$description]");
 
 
 $i = 0;
