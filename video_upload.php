@@ -9,7 +9,7 @@ define(BASEPATH, $root_path);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 $generic_image_path = '/home/planetonline/websites/truthnews/storage/images/framework/tna_vi_generic.png';
 $privacy_status = 'private'; //'public' 'private';
-$youtube_category = '22';
+$youtube_category = '25';
 include $db_conf_path;
 
 
