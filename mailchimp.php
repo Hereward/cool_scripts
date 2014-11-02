@@ -1,7 +1,7 @@
 <?php
 
 $log_path = dirname(__FILE__) . '/tna_log.txt';
-$root_path = '/home/planetonline/websites/truthnews/';
+$root_path = '/home/planetonline/websites/truthnews';
 require_once("/home/planetonline/websites/truthnews/includes/dev_log.php");
 define(BASEPATH, $root_path);
 dev_log::init($log_path, 1);
