@@ -1,6 +1,6 @@
 <?php
 
-$log_path = dirname(__FILE__) . '/tna_log.txt';
+$log_path = dirname(__FILE__) . '/mailchimp_log.txt';
 $root_path = '/home/planetonline/websites/truthnews';
 require_once("/home/planetonline/websites/truthnews/includes/dev_log.php");
 define(BASEPATH, $root_path);
@@ -10,8 +10,11 @@ dev_log::init($log_path, 1);
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 include $db_conf_path;
 
+$autoload_path = "$root_path/includes/mailchimp/vendor/autoload.php";
 
-require("$root_path/includes/mailchimp/vendor/autoload.php");
+echo "$autoload_path \n";
+
+require($autoload_path);
 $MailChimp = new \Drewm\MailChimp('9e28985b6c7059deb5dace9e6d6d2cd1-us1');
 print_r($MailChimp->call('lists/list'));
 
