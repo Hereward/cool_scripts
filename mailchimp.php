@@ -14,7 +14,7 @@ include $db_conf_path;
 
 //echo "$autoload_path \n";
 
-require("$root_path/includes/Mailchimp.php");
+require("$root_path/includes/MailChimp.php");
 $MailChimp = new \Drewm\MailChimp('9e28985b6c7059deb5dace9e6d6d2cd1-us1');
 print_r($MailChimp->call('lists/list'));
 
