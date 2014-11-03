@@ -2,38 +2,17 @@
 
 $log_path = dirname(__FILE__) . '/mailchimp_log.txt';
 $root_path = '/home/planetonline/websites/truthnews';
-require_once("/home/planetonline/websites/truthnews/includes/dev_log.php");
+require_once("$root_path/includes/dev_log.php");
+require_once("$root_path/includes/MailChimp.php");
+
 define(BASEPATH, $root_path);
 dev_log::init($log_path, 1);
-//dev_log::write('BEGIN');
+dev_log::write('BEGIN MAILCHIMP');
+
+$chimp = new \Drewm\MailChimp('9e28985b6c7059deb5dace9e6d6d2cd1-us1');
 
 $db_conf_path = '/home/planetonline/websites/truthnews/ee/expressionengine/config/database.php';
 include $db_conf_path;
-
-//$autoload_path = "$root_path/includes/mailchimp/vendor/autoload.php";
-
-//echo "$autoload_path \n";
-
-require("$root_path/includes/MailChimp.php");
-$MailChimp = new \Drewm\MailChimp('9e28985b6c7059deb5dace9e6d6d2cd1-us1');
-//print_r($MailChimp->call('lists/list'));
-
-$result = $MailChimp->call('lists/subscribe', array(
-					'id'                => 'f51df448d4',
-					'email'             => array('email'=>'hfenton@pinkpages.com.au'),
-					'merge_vars'        => array('FNAME'=>'HORACE', 'LNAME'=>'FENTONIUS'),
-					'double_optin'      => false,
-					'update_existing'   => true,
-					'replace_interests' => false,
-					'send_welcome'      => false,
-				));
-	print_r($result);
-
-
-
-
-/*
-
 
 $mysqli = mysqli_connect($db['expressionengine']['hostname'], $db['expressionengine']['username'], $db['expressionengine']['password'], $db['expressionengine']['database']);
 
@@ -42,28 +21,45 @@ if (mysqli_connect_errno($mysqli)) {
     die();
 }
 
+$sql = "SELECT * FROM tna_subscriber_details LEFT JOIN exp_members ON tna_subscriber_details.member_id = exp_members.member_id WHERE tna_subscriber_details.mailout=0 ORDER BY `tna_subscriber_details`.`member_id` ASC";
 
-$base_query = "SELECT * FROM exp_channel_titles LEFT JOIN exp_channel_data ON exp_channel_titles.entry_id=exp_channel_data.entry_id WHERE exp_channel_titles.channel_id = $channel AND exp_channel_data.$publish_to_youtube_name = 'yes' ORDER BY exp_channel_titles.entry_id ASC";
-dev_log::write("base_query = $base_query");
-$results = mysqli_query($mysqli, $base_query);
-
+$results = mysqli_query($mysqli, $sql);
 do_error($mysqli, $sql, $results);
 
 if ($results->num_rows < 1) {
     dev_log::write("ZERO results returned from main query, I guess there's nothing to do here!");
-    dev_log::write('END');
+    dev_log::write('END MAILCHIMP');
     die();
 }
 
 $results->data_seek(0);
 
-$row = $results->fetch_assoc();
- * 
- */
+while ($row = $results->fetch_assoc()) {
+    $data = array();
+
+    add_to_list($chimp, $row['first_name'], $row['last_name'], $row['email']);
+}
+  
+        
+dev_log::write('END MAILCHIMP');
 
 
-
-
+function add_to_list($chimp, $fname, $lname, $email) {
+    $msg = "ADD: $fname $lname $email";
+    dev_log::write($msg);
+    $result = $chimp->call('lists/subscribe', array(
+					'id'                => 'f51df448d4',
+					'email'             => array('email'=>$email),
+					'merge_vars'        => array('FNAME'=>$fname, 'LNAME'=>$lname),
+					'double_optin'      => false,
+					'update_existing'   => true,
+					'replace_interests' => false,
+					'send_welcome'      => false,
+				));
+    
+    $msg = print_r($result, true);
+    dev_log::write("RESULT: $msg");
+}
 
 function do_error($mysqli, $sql, $result = '') {
     $msg = '';

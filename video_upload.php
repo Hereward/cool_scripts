@@ -44,7 +44,7 @@ $base_query = "SELECT * FROM exp_channel_titles LEFT JOIN exp_channel_data ON ex
 dev_log::write("base_query = $base_query");
 $results = mysqli_query($mysqli, $base_query);
 
-do_error($mysqli, $sql, $results);
+do_error($mysqli, $base_query, $results);
 
 /*
   if (!$results) {
@@ -229,7 +229,7 @@ function get_channel($mysqli) {
 
     $sql = "SELECT * FROM exp_channels WHERE channel_name = 'tna'";
     $result = mysqli_query($mysqli, $sql);
-
+    do_error($mysqli, $sql, $result);
     //dev_log::write($sql);
     //dev_log::write("num_rows = $result->num_rows");
 
@@ -246,7 +246,7 @@ function get_fid($mysqli, $name) {
 
     $sql = "SELECT * FROM exp_channel_fields WHERE field_name = '$name'";
     $result = mysqli_query($mysqli, $sql);
-
+    do_error($mysqli, $sql, $result);
     //dev_log::write($sql);
     //dev_log::write("num_rows = $result->num_rows");
 
@@ -283,6 +283,7 @@ function get_up($mysqli, $id) {
 
     $sql = "SELECT * FROM exp_upload_prefs WHERE id = $id";
     $result = mysqli_query($mysqli, $sql);
+    do_error($mysqli, $sql, $result);
 
     //dev_log::write($sql);
     // dev_log::write("num_rows = $result->num_rows");
@@ -363,6 +364,7 @@ function upload_status($mysqli, $filename, $locked=0) {
     //$now = date("Y-m-d H:i:s");
     $sql = "SELECT * FROM tna_video_uploads WHERE filename = '$filename' ORDER BY id ASC";
     $result = mysqli_query($mysqli, $sql);
+    do_error($mysqli, $sql, $result);
 
     //dev_log::write($sql);
     // dev_log::write("num_rows = $result->num_rows");
