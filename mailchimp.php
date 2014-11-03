@@ -16,7 +16,18 @@ include $db_conf_path;
 
 require("$root_path/includes/MailChimp.php");
 $MailChimp = new \Drewm\MailChimp('9e28985b6c7059deb5dace9e6d6d2cd1-us1');
-print_r($MailChimp->call('lists/list'));
+//print_r($MailChimp->call('lists/list'));
+
+$result = $MailChimp->call('lists/subscribe', array(
+					'id'                => 'f51df448d4',
+					'email'             => array('email'=>'hfenton@pinkpages.com.au'),
+					'merge_vars'        => array('FNAME'=>'HORACE', 'LNAME'=>'FENTONIUS'),
+					'double_optin'      => false,
+					'update_existing'   => true,
+					'replace_interests' => false,
+					'send_welcome'      => false,
+				));
+	print_r($result);
 
 
 
