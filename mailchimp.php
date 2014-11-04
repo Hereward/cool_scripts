@@ -72,6 +72,9 @@ function update_list($mysqli,$subs) {
     dev_log::write($sql);
     $results = mysqli_query($mysqli, $sql);
     do_error($mysqli, $sql, $results);
+    
+    dev_log::write("AFFECTED ROWS = ".$mysqli->affected_rows);
+  
 }
 
 function do_error($mysqli, $sql, $result = '') {
