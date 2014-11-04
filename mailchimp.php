@@ -33,15 +33,19 @@ if ($results->num_rows < 1) {
 }
 
 $results->data_seek(0);
-
+$subs = array();
 while ($row = $results->fetch_assoc()) {
-    $data = array();
+    $subs[] = $row['member_id'];
 
     add_to_list($chimp, $row['first_name'], $row['last_name'], $row['email']);
 }
+
+update_list($mysqli,$subs);
   
         
 dev_log::write('END MAILCHIMP');
+
+$mysqli->close();
 
 
 function add_to_list($chimp, $fname, $lname, $email) {
@@ -59,6 +63,15 @@ function add_to_list($chimp, $fname, $lname, $email) {
     
     $msg = print_r($result, true);
     dev_log::write("RESULT: $msg");
+}
+
+function update_list($mysqli,$subs) {
+    $str = implode(",", $subs);
+    
+    $sql = "UPDATE tna_subscriber_details set mailout = 1 WHERE member_id IN ($str)";
+    dev_log::write($sql);
+    $results = mysqli_query($mysqli, $sql);
+    do_error($mysqli, $sql, $results);
 }
 
 function do_error($mysqli, $sql, $result = '') {
