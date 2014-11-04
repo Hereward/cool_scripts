@@ -135,8 +135,8 @@ foreach ($media_inputs as $input) {
     //$input = $sample;
     $locked = upload_status($mysqli, $media_outputs[$i], 1);
     $input_exists = file_exists($input);
-    $v_desc = '';
-    $v_title = '';
+    $v_desc = $description;
+    $v_title = substr($title, 0, 85);
     
     
     $errors = 0;
@@ -157,13 +157,11 @@ foreach ($media_inputs as $input) {
                 chdir("$root_path/py_scripts");
                 dev_log::write("OUTPUT FILE ({$media_outputs[$i]} EXISTS > DO UPLOAD.");
                 if ($i == 1) {
-                    $v_title = substr($title, 0, 85) . " - Part 2";
-                    $v_desc = "HOUR 2: " . $description;
-                } elseif ($i == 0) {
-                    if (count($media_inputs) > 1) {
-                        $v_title = substr($title, 0, 85) . " - Part 1";
-                        $v_desc = "HOUR 1: " . $description;
-                    }
+                    $v_title .= " - Part 2";
+                    $v_desc = "HOUR 2: " . $v_desc;
+                } elseif ($i == 0 && count($media_inputs) > 1) {
+                        $v_title .= " - Part 1";
+                        $v_desc = "HOUR 2: " . $v_desc;
                 }
                 $python_error = youtube_upload($media_outputs[$i], $v_title, $v_desc, $keywords, $youtube_category, $privacy_status);
                 if ($python_error) {
@@ -353,9 +351,9 @@ function youtube_upload($v_output, $v_title, $v_desc, $v_keywords, $v_cat, $v_ps
 
     exec($py_comm, $output, $return_var);
     dev_log::write("py_comm: return_var=$return_var");
-    if ($return_var) {
-        dev_log::write("RETURN_VAR = " . print_r($output, true));
-    }
+    
+    dev_log::write("PYTHON OUTPUT = " . print_r($output, true));
+    
     dev_log::write("end upload");
     return $return_var;
 }
